@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base html element styles. */
+html,
+body,
+#__next {
+    @apply m-0 min-h-screen w-full min-w-full max-w-full overflow-hidden p-0;
+}
+
+#__next {
+    @apply flex flex-col overflow-hidden;
+}
+
+  input {
+    @apply rounded-md shadow-sm;
+}
