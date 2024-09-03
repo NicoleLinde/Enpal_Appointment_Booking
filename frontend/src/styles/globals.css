@@ -13,6 +13,18 @@ body,
     @apply flex flex-col overflow-hidden;
 }
 
-  input {
+h1 {
+    @apply my-4 text-4xl font-medium;
+}
+
+h2 {
+    @apply my-4 text-2xl font-medium;
+}
+
+h3 {
+    @apply my-4 text-xl font-medium;
+}
+
+input {
     @apply rounded-md shadow-sm;
 }
