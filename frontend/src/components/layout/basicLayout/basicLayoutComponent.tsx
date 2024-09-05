@@ -11,7 +11,7 @@ import NavigationBar from '@/components/navigationBar/navigationBarComponent';
 const BasicLayout = (props: IBasicLayoutProps): ReactElement => {
     return (
         <div className="flex max-h-screen flex-1 flex-col antialiased">
-            <div className="h-16 p-2 flex items-center min-h-max border-b border-base-200 bg-base-100 shadow-sm">
+            <div className="h-16 p-2 flex items-center min-h-max border-b border-base bg-neutral shadow-sm">
                 <h1>Booking</h1>
             </div>
             <div className="flex flex-1 overflow-hidden">
