@@ -1,10 +1,11 @@
 import BusySpinnerOverlay from '@/components/busySpinner/busySpinnerOverlayComponent';
+import CustomerBooking from '@/components/customerBooking/customerBooking';
 import DatePicker from '@/components/datePicker/datePickerComponent';
+import SlotButtonSection from '@/components/slotButtonSection/slotButtonSectionComponent';
 import SlotConfirmationModal from '@/components/slotConfirmationModal/slotConfirmationModal';
-import StyledButton from '@/components/styledButton/styledButtonComponent';
 import useBookSlot from '@/hooks/useBookSlot';
-import useSlots from '@/hooks/useFetchSlots';
-import { IBooking } from '@/types/IBooking';
+import useCancelBooking from '@/hooks/useCancelBooking';
+import useFetchSlots from '@/hooks/useFetchSlots';
 import { ISlot } from '@/types/ISlot';
 import { NextPage } from 'next';
 import { useState } from 'react';
@@ -21,13 +22,17 @@ const Home: NextPage = () => {
     const [selectedSlot, setSelectedSlot] = useState<ISlot | null>(null);
     /** Indicates whether the booking modal is open or not. */
     const [isBookingModalOpen, setIsBookingModalOpen] = useState<boolean>(false);
-    const [bookingConfirmed, setBookingConfirmed] = useState(false);
-    const [bookingName, setBookingName] = useState('');
+    /** Whether the booking is confirmed or not. */
+    const [bookingConfirmed, setBookingConfirmed] = useState<boolean>(false);
     /** The status message for the booking request. */
     const [message, setMessage] = useState<string | undefined>();
 
-    /** The query for the slots. */
-    const slotsResult = useSlots(selectedDate.toISOString().split('T')[0]);
+    /** The query hook to fetch the slots. */
+    const slotsResult = useFetchSlots(selectedDate.toISOString().split('T')[0], false);
+    /** Hook to book the slot. */
+    const bookSlot = useBookSlot();
+    /**Mutation hook to cancel the booking. */
+    const cancelBooking = useCancelBooking();
 
     /** Open the booking modal for the selected slot. */
     const openBookingModal = (slot: ISlot) => {
@@ -35,20 +40,17 @@ const Home: NextPage = () => {
         setIsBookingModalOpen(true);
     };
 
-    /** Hook to book the slot. */
-    const bookSlot = useBookSlot();
-
     /** Method to confirm the booking process. **/
     const confirmBooking = async (fullName: string) => {
         if (selectedSlot) {
-            const booking: IBooking = {
-                slot: selectedSlot,
-                customerName: fullName,
+            const slotWithCustomerName = {
+                ...selectedSlot,
+                bookedCustomerName: fullName,
             };
-            bookSlot.mutate(booking, {
+            bookSlot.mutate(slotWithCustomerName, {
                 onSuccess: () => {
                     setBookingConfirmed(true);
-                    setBookingName(fullName);
+                    setSelectedSlot(slotWithCustomerName);
                     setMessage('Booking confirmed successfully!');
                     setTimeout(() => setIsBookingModalOpen(false), 2000);
                 },
@@ -60,33 +62,32 @@ const Home: NextPage = () => {
         }
     };
 
+    /** Cancel the booking. */
+    const onCancelBooking = async () => {
+        if (!selectedSlot) return;
+
+        await cancelBooking.mutateAsync(selectedSlot.id, {
+            onSuccess: () => {
+                setBookingConfirmed(false);
+                setSelectedSlot(null);
+            },
+            onError: (error) => {
+                console.error('Error canceling booking:', error);
+            },
+        });
+    };
+
     return (
-        <div className="flex flex-1 flex-col items-center overflow-auto py-8 bg-neutral">
-            {slotsResult.isLoading && <BusySpinnerOverlay />}
-            {bookingConfirmed ? (
-                <p className="mt-4 text-lg">
-                    Booking confirmed for {bookingName} at {selectedSlot?.startDate.toLocaleString()}
-                </p>
+        <div className="relative flex flex-1 flex-col items-center overflow-auto py-8 bg-neutral">
+            {slotsResult.isLoading || cancelBooking.isPending || (bookSlot.isPending && <BusySpinnerOverlay />)}
+            {bookingConfirmed && selectedSlot ? (
+                <CustomerBooking slot={selectedSlot} onCancelBooking={onCancelBooking} />
             ) : (
                 <>
                     <div className="flex flex-col items-center justify-between px-4">
                         <DatePicker label="Date" onChange={(newDate: Date) => setSelectedDate(newDate)} date={selectedDate} />
                     </div>
-
-                    <div className="flex gap-3 flex-wrap p-10">
-                        {slotsResult.data?.length ? (
-                            slotsResult.data.map((slot) => (
-                                <StyledButton
-                                    key={slot.id}
-                                    text={new Date(slot.startDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                    onClick={() => openBookingModal(slot)}
-                                />
-                            ))
-                        ) : (
-                            <p>No slots available for this date</p>
-                        )}
-                    </div>
-
+                    <SlotButtonSection slots={slotsResult.data || []} onSlotClick={openBookingModal} />
                     {isBookingModalOpen && selectedSlot && <SlotConfirmationModal slot={selectedSlot} updateIsOpen={setIsBookingModalOpen} onConfirm={confirmBooking} />}
                 </>
             )}
