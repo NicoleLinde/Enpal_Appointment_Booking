@@ -1,4 +1,4 @@
-import { IBooking } from '@/types/IBooking';
+import { ISlot } from '@/types/ISlot';
 import { useMutation } from '@tanstack/react-query';
 
 /**
@@ -7,13 +7,14 @@ import { useMutation } from '@tanstack/react-query';
  * @param booking The booking information, including the slot and customer name.
  * @returns A Promise resolving to the API response.
  */
-const bookSlot = async (booking: IBooking): Promise<void> => {
-    const response = await fetch(`/api/slots/${booking.slot.id}/book`, {
+const bookSlot = async (slot: ISlot): Promise<void> => {
+    console.log('Booking slot:', slot);
+    const response = await fetch(`/api/slots/${slot.id}/book`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name: booking.customerName }),
+        body: JSON.stringify({ name: slot.bookedCustomerName }),
     });
 
     if (!response.ok) {
@@ -24,8 +25,8 @@ const bookSlot = async (booking: IBooking): Promise<void> => {
 };
 
 const useBookSlot = () => {
-    return useMutation<void, Error, IBooking>({
-        mutationFn: (booking) => bookSlot(booking),
+    return useMutation<void, Error, ISlot>({
+        mutationFn: (slot) => bookSlot(slot),
     });
 };
 
