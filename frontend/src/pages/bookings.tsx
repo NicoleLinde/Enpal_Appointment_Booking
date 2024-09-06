@@ -1,9 +1,9 @@
-import Image from 'next/image';
-import { Inter } from 'next/font/google';
 import { NextPage } from 'next';
-import BasicLayout from '@/components/layout/basicLayout/basicLayoutComponent';
-
-const inter = Inter({ subsets: ['latin'] });
+import useCancelBooking from '@/hooks/useCancelBooking';
+import BusySpinnerOverlay from '@/components/busySpinner/busySpinnerOverlayComponent';
+import StyledButton from '@/components/styledButton/styledButtonComponent';
+import useFetchSlots from '@/hooks/useFetchSlots';
+import Card from '@/components/card/cardComponent';
 
 /**
  * The page component to render at "/bookings".
@@ -11,10 +11,53 @@ const inter = Inter({ subsets: ['latin'] });
  * @returns {NextPage} The bookings page component.
  */
 const Bookings: NextPage = () => {
+    /** The query hook to fetch the slots. */
+    const bookedSlots = useFetchSlots(undefined, true);
+    /** Mutation hook to cancel the booking. */
+    const cancelBooking = useCancelBooking();
+
+    /** Cancel the booking. */
+    const onCancelBooking = async (slotId: string) => {
+        await cancelBooking.mutateAsync(slotId, {
+            onSuccess: () => {},
+            onError: (error) => {
+                console.error('Error canceling booking:', error);
+            },
+        });
+    };
+
     return (
-        <>
-           Bookings
-        </>
+        <div className="relative flex flex-1 justify-center items-center flex-col overflow-auto py-8 bg-neutral">
+            <div className="w-full max-w-6xl">
+                {bookedSlots.isLoading || (cancelBooking.isPending && <BusySpinnerOverlay />)}
+                <Card>
+                    {bookedSlots.data && bookedSlots.data?.length > 0 ? (
+                        <div className="p-10">
+                            <div className="grid grid-cols-4 gap-4 font-bold mb-4">
+                                <p>Date</p>
+                                <p>Time</p>
+                                <p>Customer Name</p>
+                                <p className="justify-self-end">Cancel Appointment</p>
+                            </div>
+                            <div className="grid gap-3">
+                                {bookedSlots.data?.map((slot) => (
+                                    <div key={slot.id} className="grid grid-cols-4 gap-4 items-center">
+                                        <p>{`${new Date(slot.startDate).toLocaleDateString()}`}</p>
+                                        <p>{`${new Date(slot.startDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`}</p>
+                                        <p>{`${slot.bookedCustomerName}`}</p>
+                                        <div className="justify-self-end">
+                                            <StyledButton text="X" onClick={() => onCancelBooking(slot.id)} />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ) : (
+                        <p>No booked slots available.</p>
+                    )}
+                </Card>
+            </div>
+        </div>
     );
 };
 
