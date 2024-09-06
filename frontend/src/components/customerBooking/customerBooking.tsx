@@ -10,13 +10,20 @@ import useCancelBooking from '@/hooks/useCancelBooking';
  */
 const CustomerBooking: FunctionComponent<ICustomerBookingProps> = (props): ReactElement => {
     return (
-        <div className="p-4 bg-white rounded shadow-md">
-            <h2 className="text-lg font-bold mb-2">Booking Confirmation</h2>
-            <p className="mb-2">Your booking for {props.slot?.startDate.toLocaleString()} has been confirmed.</p>
-            <p className="mb-4">Customer Name: {props.slot.bookedCustomerName}</p>
-            <div className="flex gap-4">
-                <StyledButton text="Cancel Booking" onClick={props.onCancelBooking} />
-                <StyledButton text="Join Your Call" />
+        <div className="flex justify-center">
+            <div>
+                <h2 className="font-semibold">Booking Confirmation</h2>
+                <p className="mb-4">{`Hello ${props.slot.bookedCustomerName}!`}</p>
+                <div className="flex flex-col gap-1">
+                    <p>Your booked slot</p>
+                    <p>{`Date: ${new Date(props.slot.startDate).toLocaleDateString()}`}</p>
+                    <p>{`Time: ${new Date(props.slot.startDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`}</p>
+                    <p>Duration: 30 min.</p>
+                </div>
+                <div className="flex gap-4 my-10">
+                    <StyledButton text="Cancel Booking" onClick={props.onCancelBooking}  backgroundColor="bg-gray-100" textColor="text-primary"/>
+                    <StyledButton text="Join Your Call" />
+                </div>
             </div>
         </div>
     );

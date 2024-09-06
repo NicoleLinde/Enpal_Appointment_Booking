@@ -1,8 +1,9 @@
 import BusySpinnerOverlay from '@/components/busySpinner/busySpinnerOverlayComponent';
+import Card from '@/components/card/cardComponent';
 import CustomerBooking from '@/components/customerBooking/customerBooking';
 import DatePicker from '@/components/datePicker/datePickerComponent';
+import SlotConfirmationModal from '@/components/modals/slotConfirmationModal/slotConfirmationModal';
 import SlotButtonSection from '@/components/slotButtonSection/slotButtonSectionComponent';
-import SlotConfirmationModal from '@/components/slotConfirmationModal/slotConfirmationModal';
 import useBookSlot from '@/hooks/useBookSlot';
 import useCancelBooking from '@/hooks/useCancelBooking';
 import useFetchSlots from '@/hooks/useFetchSlots';
@@ -78,19 +79,21 @@ const Home: NextPage = () => {
     };
 
     return (
-        <div className="relative flex flex-1 flex-col items-center overflow-auto py-8 bg-neutral">
-            {slotsResult.isLoading || cancelBooking.isPending || (bookSlot.isPending && <BusySpinnerOverlay />)}
-            {bookingConfirmed && selectedSlot ? (
-                <CustomerBooking slot={selectedSlot} onCancelBooking={onCancelBooking} />
-            ) : (
-                <>
-                    <div className="flex flex-col items-center justify-between px-4">
-                        <DatePicker label="Date" onChange={(newDate: Date) => setSelectedDate(newDate)} date={selectedDate} />
-                    </div>
-                    <SlotButtonSection slots={slotsResult.data || []} onSlotClick={openBookingModal} />
-                    {isBookingModalOpen && selectedSlot && <SlotConfirmationModal slot={selectedSlot} updateIsOpen={setIsBookingModalOpen} onConfirm={confirmBooking} />}
-                </>
-            )}
+        <div className="relative flex flex-1 flex-col justify-center items-center overflow-auto py-8 bg-neutral">
+            <div className="w-full max-w-6xl">
+                {slotsResult.isLoading || cancelBooking.isPending || (bookSlot.isPending && <BusySpinnerOverlay />)}
+                <Card>
+                    {bookingConfirmed && selectedSlot ? (
+                        <CustomerBooking slot={selectedSlot} onCancelBooking={onCancelBooking} />
+                    ) : (
+                        <div className="flex flex-col gap-32 w-full">
+                            <DatePicker onChange={(newDate: Date) => setSelectedDate(newDate)} date={selectedDate} />
+                            <SlotButtonSection slots={slotsResult.data || []} onSlotClick={openBookingModal} />
+                            {isBookingModalOpen && selectedSlot && <SlotConfirmationModal slot={selectedSlot} updateIsOpen={setIsBookingModalOpen} onConfirm={confirmBooking} />}
+                        </div>
+                    )}
+                </Card>
+            </div>
         </div>
     );
 };

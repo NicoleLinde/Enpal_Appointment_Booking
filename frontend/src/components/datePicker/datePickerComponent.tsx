@@ -16,6 +16,7 @@ registerLocale('de', de);
 const DatePicker: FunctionComponent<IDatePickerProps> = (props): ReactElement => {
     return (
         <div className="form-control w-full max-w-full">
+            <h3 className="font-semibold py-3">Pick a date</h3>
             {props.label && props.label !== '' && <p>{props.label}</p>}
             <RDatePicker
                 selected={props.date}
@@ -30,7 +31,7 @@ const DatePicker: FunctionComponent<IDatePickerProps> = (props): ReactElement =>
                 dateFormat={'dd.MM.yyyy'}
                 placeholderText={props.placeholder}
                 showPopperArrow={false}
-                className={'w-full p-2 border border-gray-300 rounded-md'}
+                className={'w-full p-3 border border-gray-300 rounded-md'}
             />
         </div>
     );

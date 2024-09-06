@@ -6,7 +6,7 @@
 html,
 body,
 #__next {
-    @apply m-0 min-h-screen w-full min-w-full max-w-full overflow-hidden p-0;
+    @apply m-0 min-h-screen w-full min-w-full max-w-full overflow-hidden p-0 text-gray-800;
 }
 
 #__next {
