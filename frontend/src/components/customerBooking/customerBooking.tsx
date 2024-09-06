@@ -1,11 +1,11 @@
 import React, { FunctionComponent, ReactElement } from 'react';
 import { ICustomerBookingProps } from './properties';
 import StyledButton from '../styledButton/styledButtonComponent';
-import useCancelBooking from '@/hooks/useCancelBooking';
 
 /**
- * Component to display booking for customer.
+ * Component to display a booking for a customer.
  *
+ * @param {ICustomerBookingProps} props The component properties.
  * @returns {ReactElement} The customer booking.
  */
 const CustomerBooking: FunctionComponent<ICustomerBookingProps> = (props): ReactElement => {

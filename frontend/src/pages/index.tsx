@@ -8,7 +8,7 @@ import SlotButtonSection from '@/components/slotButtonSection/slotButtonSectionC
 import useBookSlot from '@/hooks/useBookSlot';
 import useCancelBooking from '@/hooks/useCancelBooking';
 import useFetchSlots from '@/hooks/useFetchSlots';
-import { IMessageState } from '@/types/IMessagState';
+import { IMessageState } from '@/types/IMessageState';
 import { ISlot } from '@/types/ISlot';
 import { NextPage } from 'next';
 import { useState } from 'react';
@@ -25,16 +25,16 @@ const Home: NextPage = () => {
     const [selectedSlot, setSelectedSlot] = useState<ISlot | null>(null);
     /** Indicates whether the booking modal is open or not. */
     const [isBookingModalOpen, setIsBookingModalOpen] = useState<boolean>(false);
-    /** Whether the booking is confirmed or not. */
+    /** Indicates whether the booking slot selection was confirmed by customer or not. */
     const [bookingConfirmed, setBookingConfirmed] = useState<boolean>(false);
     /** The status message for the booking request. */
     const [messageState, setMessageState] = useState<IMessageState>({ text: null, type: null });
 
     /** The query hook to fetch the slots. */
     const slotsResult = useFetchSlots(selectedDate.toISOString().split('T')[0], false);
-    /** Hook to book the slot. */
+    /** Mutation hook to book the slot. */
     const bookSlot = useBookSlot();
-    /**Mutation hook to cancel the booking. */
+    /** Mutation hook to cancel the booking. */
     const cancelBooking = useCancelBooking();
 
     /** Open the booking modal for the selected slot. */
@@ -43,7 +43,7 @@ const Home: NextPage = () => {
         setIsBookingModalOpen(true);
     };
 
-    /** Method to confirm the booking process. **/
+    /** Method to confirm the booking slot selection. **/
     const confirmBooking = async (fullName: string) => {
         if (selectedSlot) {
             const slotWithCustomerName = {
@@ -65,7 +65,7 @@ const Home: NextPage = () => {
         }
     };
 
-    /** Cancel the booking. */
+    /** Method to cancel the booking. */
     const onCancelBooking = async () => {
         if (!selectedSlot) return;
 

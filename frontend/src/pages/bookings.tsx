@@ -7,8 +7,9 @@ import Card from '@/components/card/cardComponent';
 import CancelSlotModal from '@/components/modals/cancelSlotModal/cancelSlotModal';
 import { useState } from 'react';
 import { ISlot } from '@/types/ISlot';
-import { IMessageState } from '@/types/IMessagState';
+import { IMessageState } from '@/types/IMessageState';
 import MessageBar from '@/components/messageBar/messageBarComponent';
+import { XCircleIcon } from '@heroicons/react/20/solid';
 
 /**
  * The page component to render at "/bookings".
@@ -20,14 +21,15 @@ const Bookings: NextPage = () => {
     const [selectedSlot, setSelectedSlot] = useState<ISlot | null>(null);
     /** Indicates whether the cancel modal is open or not. */
     const [isCancelModalOpen, setIsCancelModalOpen] = useState<boolean>(false);
-    /** The status message for the booking request. */
+    /** The status message for the cancel slot request. */
     const [messageState, setMessageState] = useState<IMessageState>({ text: null, type: null });
+
     /** The query hook to fetch the slots. */
     const bookedSlots = useFetchSlots(undefined, true);
     /** Mutation hook to cancel the booking. */
     const cancelBooking = useCancelBooking();
 
-    /** Cancel the booking. */
+    /** Method to cancel the booking. */
     const cancelSlot = async (slotId: string) => {
         await cancelBooking.mutateAsync(slotId, {
             onSuccess: () => {
@@ -41,7 +43,7 @@ const Bookings: NextPage = () => {
         });
     };
 
-    /** Method to close the message. **/
+    /** Method to close the message manually. **/
     const handleCloseMessage = () => {
         setMessageState({ text: null, type: null });
     };
@@ -67,7 +69,8 @@ const Bookings: NextPage = () => {
                                         <p>{`${slot.bookedCustomerName}`}</p>
                                         <div className="justify-self-end">
                                             <StyledButton
-                                                text="X"
+                                                text="Cancel"
+                                                icon={<XCircleIcon className="h-5 w-5 text-neutral-content" />}
                                                 onClick={() => {
                                                     setSelectedSlot(slot);
                                                     setIsCancelModalOpen(true);

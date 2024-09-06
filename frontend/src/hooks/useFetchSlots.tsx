@@ -2,12 +2,12 @@ import { ISlot } from '@/types/ISlot';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 /**
- * Fetch slots from the API based on query parameters.
+ * Fetches slots from the API based on query parameters.
  *
- * @param date The date to fetch slots for.
- * @param isBooked Whether to filter for booked slots.
- * @param bookedCustomerName The name of the customer for booked slots.
- * @returns A UseQueryResult containing the fetched slots.
+ * @param {string} date The date to fetch slots for.
+ * @param {boolean} isBooked Whether to filter for booked slots.
+ * @param {string} bookedCustomerName The name of the customer for booked slots.
+ * @returns {Promise} A UseQueryResult containing the fetched slots.
  */
 const fetchSlots = async (date?: string, isBooked?: boolean, bookedCustomerName?: string): Promise<ISlot[]> => {
     // Build the query string with the parameters

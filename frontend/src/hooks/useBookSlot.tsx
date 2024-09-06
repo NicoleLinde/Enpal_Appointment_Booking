@@ -1,11 +1,11 @@
 import { ISlot } from '@/types/ISlot';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 /**
  * Method to book a slot by sending a POST request to the API.
  *
- * @param booking The booking information, including the slot and customer name.
- * @returns A Promise resolving to the API response.
+ * @param {ISlot} booking The booking information.
+ * @returns {Promise} A Promise resolving to the API response.
  */
 const bookSlot = async (slot: ISlot): Promise<void> => {
     const response = await fetch(`/api/slots/${slot.id}/book`, {
@@ -24,8 +24,14 @@ const bookSlot = async (slot: ISlot): Promise<void> => {
 };
 
 const useBookSlot = () => {
+      // Get the query client from the context
+    const queryClient = useQueryClient();
+
     return useMutation<void, Error, ISlot>({
         mutationFn: (slot) => bookSlot(slot),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['slots'] });
+        },
     });
 };
 

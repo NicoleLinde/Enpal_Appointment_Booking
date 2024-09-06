@@ -3,8 +3,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 /**
  * Method to cancel a booked slot by sending a POST request to the API.
  *
- * @param slotId The id of the slot.
- * @returns A Promise resolving to the API response.
+ * @param {string} slotId The id of the slot.
+ * @returns {Promise} A Promise resolving to the API response.
  */
 const cancelBooking = async (slotId: string): Promise<void> => {
     const response = await fetch(`/api/slots/${slotId}/cancel-booking`, {
@@ -22,6 +22,7 @@ const cancelBooking = async (slotId: string): Promise<void> => {
 };
 
 const useCancelBooking = () => {
+    // Get the query client from the context
     const queryClient = useQueryClient();
 
     return useMutation<void, Error, string>({

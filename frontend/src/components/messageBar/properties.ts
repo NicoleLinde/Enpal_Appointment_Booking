@@ -1,4 +1,4 @@
-import { IMessageState } from '@/types/IMessagState';
+import { IMessageState } from '@/types/IMessageState';
 
 /**
  * Properties for the message bar component.

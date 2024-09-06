@@ -4,10 +4,11 @@ import { IMessageBarProps } from './properties';
 /**
  * The message bar.
  *
- * @param {IMessageBarProps} props The container properties.
- * @returns {ReactElement | null} The message bar component.
+ * @param {IMessageBarProps} props The properties of the component.
+ * @returns {ReactElement | null} The message bar component or no component at all.
  */
 const MessageBar: React.FC<IMessageBarProps> = (props): ReactElement | null => {
+    /** Closes the message bar after timeout. */
     useEffect(() => {
         if (props.messageState.text) {
             const timer = setTimeout(() => {

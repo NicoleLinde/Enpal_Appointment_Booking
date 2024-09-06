@@ -7,7 +7,7 @@ import BasicModal from '../basicModal/basicModalComponent';
  * Modal to cancel the booked slot.
  *
  * @param {ICancelSlotModalProps} props The component properties.
- * @returns {ReactElement} The booking modal component.
+ * @returns {ReactElement} The cancel slot modal component.
  */
 const CancelSlotModal: FunctionComponent<ICancelSlotModalProps> = (props): ReactElement => {
     return (

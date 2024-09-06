@@ -7,7 +7,7 @@ import { Roboto } from 'next/font/google';
 /** Initialize  Roboto-Font with the specified subsets and weights. **/
 const roboto = Roboto({ subsets: ['latin'], weight: ['400', '700'] });
 
-// Create query client to use.
+/** Create query client to use. **/
 const queryClient = new QueryClient();
 
 /**

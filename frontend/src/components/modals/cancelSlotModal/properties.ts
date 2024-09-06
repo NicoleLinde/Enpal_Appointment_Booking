@@ -1,7 +1,7 @@
 import { ISlot } from '@/types/ISlot';
 
 /**
- * Properties for the slot cancellation modal component.
+ * Properties for the slot cancelation modal component.
  */
 interface ICancelSlotModalProps {
     /** The slot. */

@@ -11,7 +11,7 @@ export default function Document(): JSX.Element {
         <Html>
             <Head>
                 <title>Booking</title>
-                <meta name="description" content="This is booking app." />
+                <meta name="description" content="This is a booking app." />
                 <meta property="og:title" content="Booking" />
             </Head>
             <body>

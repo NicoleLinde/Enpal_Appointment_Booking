@@ -5,7 +5,7 @@ import { FunctionComponent, ReactElement } from 'react';
 import { CalendarDaysIcon, UserCircleIcon } from '@heroicons/react/20/solid';
 
 /**
- * Navigation bar placed on the side of the screen.
+ * Navigation bar placed on the side of the screen to switch easily between pages.
  *
  * @returns {ReactElement} The navigation bar component.
  */
