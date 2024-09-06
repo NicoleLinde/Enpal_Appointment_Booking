@@ -10,7 +10,7 @@ import { IStyledButtonProps } from './properties';
 const StyledButton: FunctionComponent<IStyledButtonProps> = (props): ReactElement => {
     return (
         <button
-            className={`flex items-center justify-center p-3 rounded-md min-w-20 ${props.disabled ? 'bg-disabled' : props.backgroundColor ?? 'bg-primary'} ${
+            className={`flex items-center font-semibold justify-center p-3 rounded-md min-w-24 ${props.disabled ? 'bg-disabled' : props.backgroundColor ?? 'bg-primary'} ${
                 props.textColor ?? ' text-neutral-content'
             }`}
             onClick={props.onClick}
