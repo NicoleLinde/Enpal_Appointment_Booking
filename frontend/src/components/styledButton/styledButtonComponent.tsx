@@ -4,7 +4,7 @@ import { IStyledButtonProps } from './properties';
 /**
  * The styled button.
  *
- * @param {IPrimaryButtonProps} props The component properties.
+ * @param {IStyledButtonProps} props The component properties.
  * @returns {ReactElement} The styled button component.
  */
 const StyledButton: FunctionComponent<IStyledButtonProps> = (props): ReactElement => {
@@ -16,7 +16,9 @@ const StyledButton: FunctionComponent<IStyledButtonProps> = (props): ReactElemen
             onClick={props.onClick}
             disabled={props.disabled}
         >
-            {props.text}
+            <span className='flex justify-center items-center gap-2'>
+                {props.icon} {props.text}
+            </span>
         </button>
     );
 };

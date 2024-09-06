@@ -1,9 +1,13 @@
+import { ReactElement } from 'react';
+
 /**
- * Properties for the primary button component
+ * Properties for the styled button component
  */
 interface IStyledButtonProps {
     /** The text to display. */
-    text: string;
+    text?: string;
+    /** The icon to display. */
+    icon?: ReactElement;
     /** The action to execute on click. */
     onClick?: () => void;
     /** The background color of the button. */
