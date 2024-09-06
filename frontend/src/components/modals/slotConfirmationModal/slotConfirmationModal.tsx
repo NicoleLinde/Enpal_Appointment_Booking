@@ -27,30 +27,33 @@ const SlotConfirmationModal: FunctionComponent<ISlotConfirmationModalProps> = (p
 
     /** Method to confirm the booking process. **/
     const handleConfirm = () => {
+        const fullName = `${firstName.trim()} ${lastName.trim()}`;
         props.onConfirm(fullName);
     };
 
     return (
-        <BasicModal
-            title="Confirm your slot"
-        >
-            <div className="flex gap-3">
-                <div className="flex flex-col gap-2">
-                    <label>First name</label>
-                    <input type="text" placeholder="Enter your name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+        <BasicModal title="Confirm your slot">
+            <div className="flex flex-col gap-5">
+                <div className="flex gap-3">
+                    <div className="flex flex-col gap-2">
+                        <label>First name</label>
+                        <input type="text" placeholder="Enter your name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <label>Last name</label>
+                        <input type="text" placeholder="Enter your name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                    </div>
                 </div>
-                <div className="flex flex-col gap-2">
-                    <label>Last name</label>
-                    <input type="text" placeholder="Enter your name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                <div className="flex flex-col gap-1">
+                    <p className="my-1 font-semibold">Selected Slot:</p>
+                    <p>Date: {new Date(props.slot.startDate).toLocaleDateString()}</p>
+                    <p className="my-1">Time: {new Date(props.slot.startDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                    <p className="my-1">Duration: 30 min.</p>
                 </div>
-            </div>
-            <p className="my-1 font-medium">Selected Slot:</p>
-            <p>Date: {new Date(props.slot.startDate).toLocaleDateString()}</p>
-            <p className="my-1">Time: {new Date(props.slot.startDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
-            <p className="my-1">Duration: 30 min.</p>
-            <div className="flex justify-end gap-3 pt-6">
-                <StyledButton text="Cancel" onClick={onCancel} backgroundColor="bg-gray-100" textColor="text-primary" />
-                <StyledButton text="Confirm" onClick={handleConfirm} disabled={confirmDisabled} />
+                <div className="flex justify-end gap-3 pt-6">
+                    <StyledButton text="Cancel" onClick={onCancel} backgroundColor="bg-gray-100" textColor="text-primary" />
+                    <StyledButton text="Confirm" onClick={handleConfirm} disabled={confirmDisabled} />
+                </div>
             </div>
         </BasicModal>
     );

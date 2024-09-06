@@ -8,7 +8,6 @@ import { useMutation } from '@tanstack/react-query';
  * @returns A Promise resolving to the API response.
  */
 const bookSlot = async (slot: ISlot): Promise<void> => {
-    console.log('Booking slot:', slot);
     const response = await fetch(`/api/slots/${slot.id}/book`, {
         method: 'POST',
         headers: {
