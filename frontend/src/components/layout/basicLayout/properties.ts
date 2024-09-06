@@ -6,6 +6,8 @@ import { ReactNode } from 'react';
 interface IBasicLayoutProps {
     /** The children to render. */
     children: ReactNode;
+    /** The font to apply on the layout. */
+    font?: string;
 }
 
 export type { IBasicLayoutProps };
