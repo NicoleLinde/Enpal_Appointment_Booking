@@ -10,8 +10,8 @@ import StyledButton from '../styledButton/styledButtonComponent';
  */
 const SlotButtonSection: FunctionComponent<ISlotButtonSectionProps> = (props): ReactElement => {
     return (
-        <div className='p-10'>
-            <h3>Pick a slot</h3>
+        <div className='flex flex-col gap-5'>
+            <h3 className="font-semibold">Pick a slot</h3>
             <div className="flex gap-3 flex-wrap">
                 {props.slots.length > 0 ? (
                     props.slots.map((slot) => (
@@ -22,7 +22,7 @@ const SlotButtonSection: FunctionComponent<ISlotButtonSectionProps> = (props): R
                         />
                     ))
                 ) : (
-                    <p>No slots available for this date</p>
+                    <p className='text-gray-500'>No slots available for this date</p>
                 )}
             </div>
         </div>
