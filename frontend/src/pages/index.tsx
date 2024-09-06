@@ -2,11 +2,13 @@ import BusySpinnerOverlay from '@/components/busySpinner/busySpinnerOverlayCompo
 import Card from '@/components/card/cardComponent';
 import CustomerBooking from '@/components/customerBooking/customerBooking';
 import DatePicker from '@/components/datePicker/datePickerComponent';
+import MessageBar from '@/components/messageBar/messageBarComponent';
 import SlotConfirmationModal from '@/components/modals/slotConfirmationModal/slotConfirmationModal';
 import SlotButtonSection from '@/components/slotButtonSection/slotButtonSectionComponent';
 import useBookSlot from '@/hooks/useBookSlot';
 import useCancelBooking from '@/hooks/useCancelBooking';
 import useFetchSlots from '@/hooks/useFetchSlots';
+import { IMessageState } from '@/types/IMessagState';
 import { ISlot } from '@/types/ISlot';
 import { NextPage } from 'next';
 import { useState } from 'react';
@@ -26,7 +28,7 @@ const Home: NextPage = () => {
     /** Whether the booking is confirmed or not. */
     const [bookingConfirmed, setBookingConfirmed] = useState<boolean>(false);
     /** The status message for the booking request. */
-    const [message, setMessage] = useState<string | undefined>();
+    const [messageState, setMessageState] = useState<IMessageState>({ text: null, type: null });
 
     /** The query hook to fetch the slots. */
     const slotsResult = useFetchSlots(selectedDate.toISOString().split('T')[0], false);
@@ -52,12 +54,12 @@ const Home: NextPage = () => {
                 onSuccess: () => {
                     setBookingConfirmed(true);
                     setSelectedSlot(slotWithCustomerName);
-                    setMessage('Booking confirmed successfully!');
+                    setMessageState({ text: 'Booking confirmed successfully!', type: 'success' });
                     setTimeout(() => setIsBookingModalOpen(false), 2000);
                 },
                 onError: () => {
                     console.error('Booking failed');
-                    setMessage('Booking failed');
+                    setMessageState({ text: 'Booking failed', type: 'error' });
                 },
             });
         }
@@ -71,11 +73,18 @@ const Home: NextPage = () => {
             onSuccess: () => {
                 setBookingConfirmed(false);
                 setSelectedSlot(null);
+                setMessageState({ text: 'Booking canceled successfully!', type: 'success' });
             },
             onError: (error) => {
                 console.error('Error canceling booking:', error);
+                setMessageState({ text: 'Error canceling booking', type: 'error' });
             },
         });
+    };
+
+    /** Method to close the message. **/
+    const handleCloseMessage = () => {
+        setMessageState({ text: null, type: null });
     };
 
     return (
@@ -94,6 +103,7 @@ const Home: NextPage = () => {
                     )}
                 </Card>
             </div>
+            <MessageBar messageState={messageState} onClose={handleCloseMessage} />
         </div>
     );
 };

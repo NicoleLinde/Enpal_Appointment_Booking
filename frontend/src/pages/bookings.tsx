@@ -7,6 +7,8 @@ import Card from '@/components/card/cardComponent';
 import CancelSlotModal from '@/components/modals/cancelSlotModal/cancelSlotModal';
 import { useState } from 'react';
 import { ISlot } from '@/types/ISlot';
+import { IMessageState } from '@/types/IMessagState';
+import MessageBar from '@/components/messageBar/messageBarComponent';
 
 /**
  * The page component to render at "/bookings".
@@ -18,6 +20,8 @@ const Bookings: NextPage = () => {
     const [selectedSlot, setSelectedSlot] = useState<ISlot | null>(null);
     /** Indicates whether the cancel modal is open or not. */
     const [isCancelModalOpen, setIsCancelModalOpen] = useState<boolean>(false);
+    /** The status message for the booking request. */
+    const [messageState, setMessageState] = useState<IMessageState>({ text: null, type: null });
     /** The query hook to fetch the slots. */
     const bookedSlots = useFetchSlots(undefined, true);
     /** Mutation hook to cancel the booking. */
@@ -28,11 +32,18 @@ const Bookings: NextPage = () => {
         await cancelBooking.mutateAsync(slotId, {
             onSuccess: () => {
                 setIsCancelModalOpen(false);
+                setMessageState({ text: 'Booking canceled successfully!', type: 'success' });
             },
             onError: (error) => {
                 console.error('Error canceling booking:', error);
+                setMessageState({ text: 'Error canceling booking.', type: 'error' });
             },
         });
+    };
+
+    /** Method to close the message. **/
+    const handleCloseMessage = () => {
+        setMessageState({ text: null, type: null });
     };
 
     return (
@@ -73,6 +84,7 @@ const Bookings: NextPage = () => {
                 </Card>
                 {isCancelModalOpen && selectedSlot && <CancelSlotModal slot={selectedSlot} updateIsOpen={setIsCancelModalOpen} onConfirm={cancelSlot} />}
             </div>
+            <MessageBar messageState={messageState} onClose={handleCloseMessage} />
         </div>
     );
 };
