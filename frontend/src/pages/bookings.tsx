@@ -4,6 +4,9 @@ import BusySpinnerOverlay from '@/components/busySpinner/busySpinnerOverlayCompo
 import StyledButton from '@/components/styledButton/styledButtonComponent';
 import useFetchSlots from '@/hooks/useFetchSlots';
 import Card from '@/components/card/cardComponent';
+import CancelSlotModal from '@/components/modals/cancelSlotModal/cancelSlotModal';
+import { useState } from 'react';
+import { ISlot } from '@/types/ISlot';
 
 /**
  * The page component to render at "/bookings".
@@ -11,15 +14,21 @@ import Card from '@/components/card/cardComponent';
  * @returns {NextPage} The bookings page component.
  */
 const Bookings: NextPage = () => {
+    /** The selected slot to cancel. */
+    const [selectedSlot, setSelectedSlot] = useState<ISlot | null>(null);
+    /** Indicates whether the cancel modal is open or not. */
+    const [isCancelModalOpen, setIsCancelModalOpen] = useState<boolean>(false);
     /** The query hook to fetch the slots. */
     const bookedSlots = useFetchSlots(undefined, true);
     /** Mutation hook to cancel the booking. */
     const cancelBooking = useCancelBooking();
 
     /** Cancel the booking. */
-    const onCancelBooking = async (slotId: string) => {
+    const cancelSlot = async (slotId: string) => {
         await cancelBooking.mutateAsync(slotId, {
-            onSuccess: () => {},
+            onSuccess: () => {
+                setIsCancelModalOpen(false);
+            },
             onError: (error) => {
                 console.error('Error canceling booking:', error);
             },
@@ -46,7 +55,13 @@ const Bookings: NextPage = () => {
                                         <p>{`${new Date(slot.startDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`}</p>
                                         <p>{`${slot.bookedCustomerName}`}</p>
                                         <div className="justify-self-end">
-                                            <StyledButton text="X" onClick={() => onCancelBooking(slot.id)} />
+                                            <StyledButton
+                                                text="X"
+                                                onClick={() => {
+                                                    setSelectedSlot(slot);
+                                                    setIsCancelModalOpen(true);
+                                                }}
+                                            />
                                         </div>
                                     </div>
                                 ))}
@@ -56,6 +71,7 @@ const Bookings: NextPage = () => {
                         <p>No booked slots available.</p>
                     )}
                 </Card>
+                {isCancelModalOpen && selectedSlot && <CancelSlotModal slot={selectedSlot} updateIsOpen={setIsCancelModalOpen} onConfirm={cancelSlot} />}
             </div>
         </div>
     );
