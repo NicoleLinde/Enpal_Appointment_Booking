@@ -13,9 +13,9 @@ const CustomerBooking: FunctionComponent<ICustomerBookingProps> = (props): React
         <div className="flex justify-center">
             <div>
                 <h2 className="font-semibold">Booking Confirmation</h2>
-                <p className="mb-4">{`Hello ${props.slot.bookedCustomerName}!`}</p>
-                <div className="flex flex-col gap-1">
-                    <p>Your booked slot</p>
+                <h3 className="mb-4">{`Hello ${props.slot.bookedCustomerName}!`}</h3>
+                <div className="flex flex-col gap-2">
+                    <p className='font-semibold'>Your booked slot:</p>
                     <p>{`Date: ${new Date(props.slot.startDate).toLocaleDateString()}`}</p>
                     <p>{`Time: ${new Date(props.slot.startDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`}</p>
                     <p>Duration: 30 min.</p>
