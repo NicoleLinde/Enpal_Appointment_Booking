@@ -9,13 +9,12 @@ import { useQuery, UseQueryResult } from '@tanstack/react-query';
  * @param bookedCustomerName The name of the customer for booked slots.
  * @returns A UseQueryResult containing the fetched slots.
  */
-const fetchSlots = async (date: string, isBooked?: boolean, bookedCustomerName?: string): Promise<ISlot[]> => {
+const fetchSlots = async (date?: string, isBooked?: boolean, bookedCustomerName?: string): Promise<ISlot[]> => {
     // Build the query string with the parameters
     const queryParams = new URLSearchParams();
     if (date) queryParams.append('date', date);
     if (isBooked !== undefined) queryParams.append('isBooked', isBooked.toString());
     if (bookedCustomerName) queryParams.append('bookedCustomerName', bookedCustomerName);
-
     const response = await fetch(`/api/slots?${queryParams.toString()}`);
 
     if (!response.ok) {
@@ -29,12 +28,11 @@ const fetchSlots = async (date: string, isBooked?: boolean, bookedCustomerName?:
     }
 };
 
-const useSlots = (date?: string, isBooked?: boolean, bookedCustomerName?: string): UseQueryResult<ISlot[], Error> => {
+const useFetchSlots = (date?: string, isBooked?: boolean, bookedCustomerName?: string): UseQueryResult<ISlot[], Error> => {
     return useQuery<ISlot[], Error>({
         queryKey: ['slots', date, isBooked, bookedCustomerName],
-        queryFn: () => fetchSlots(date ?? '', isBooked, bookedCustomerName),
-        enabled: !!date,
+        queryFn: () => fetchSlots(date, isBooked, bookedCustomerName),
     });
 };
 
-export default useSlots;
+export default useFetchSlots;
