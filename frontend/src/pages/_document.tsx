@@ -9,11 +9,7 @@ import React from 'react';
 export default function Document(): JSX.Element {
     return (
         <Html>
-            <Head>
-                <title>Booking</title>
-                <meta name="description" content="This is a booking app." />
-                <meta property="og:title" content="Booking" />
-            </Head>
+            <Head />
             <body>
                 <Main />
                 <NextScript />

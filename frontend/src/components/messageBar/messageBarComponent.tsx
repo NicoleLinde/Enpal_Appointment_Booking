@@ -17,8 +17,10 @@ const MessageBar: React.FC<IMessageBarProps> = (props): ReactElement | null => {
 
             return () => clearTimeout(timer);
         }
-    }, [props.messageState.text]);
+    }, [props.messageState.text, props.duration, props.onClose]);
 
+    /** If there is no message text in the props, return null to render nothing.
+     * This prevents the component from displaying when there's no message to show.*/
     if (!props.messageState.text) return null;
 
     return (

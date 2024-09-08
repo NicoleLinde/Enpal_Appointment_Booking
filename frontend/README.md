@@ -1,40 +1,76 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Enpal Appointment Booking Frontend
+
+This project is a Next.js-based application created for Enpal's appointment booking system.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+Make sure you have the following installed on your machine:
+
+- **Node.js** (latest stable version)
+- **npm** (comes with Node.js)
+
+### Installation
+
+To install the project dependencies, navigate to the project folder and run:
+
+```bash
+npm install
+```
+
+### Running the Development Server
+
+To start the development server, use the following command:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will run on http://localhost:3001 because the API is running on port 3000.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+### Building the Project
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+To create a production build, run:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```bash
+npm run build
+``` 
+Once the build is finished, you can start the production server with:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+npm start
+``` 
 
-## Learn More
+### Running the Linter
 
-To learn more about Next.js, take a look at the following resources:
+To check for linting issues, run the following command:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run lint
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+This will automatically check the code for any linting errors based on the project’s ESLint configuration.
 
-## Deploy on Vercel
+### Trade-offs and Time Constraints
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+During the development process, the following trade-offs were made due to time constraints:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- **Global Message State:** A global state management solution (such as Redux or Context API) was not implemented for handling global messages. Instead, messages were handled locally within components for simplicity.
+- **User Authentication & Role Management:** No user login or handling was implemented to display different content based on user roles. This could be important in a production environment but was omitted to focus on core functionality.
+- **Responsiveness:** The design is optimized for desktop devices. Responsiveness for mobile and tablet devices was deprioritized due to time constraints.
+- **Refactoring and Generalization:** There was limited refactoring and generalization of components, meaning certain parts of the code could benefit from further abstraction or simplification.
+
+### Api Routes
+
+The application interacts with the provided API for managing appointment slots. Here are some key routes:
+
+- **GET /api/slots:** Fetches available slots, can be filtered by date, booking status, or customer name.
+- **POST /api/slots/{slotId}/book:** Books a specific slot by its ID.
+- **POST /api/slots/{slotId}/cancel-booking:** Cancels a booked slot.
+
+These routes are used by the frontend to display and manage appointment slots.
+
+### Acknowledgements:
+
+This project was created as part of an assessment for Enpal, and the API provided by Enpal is used for fetching and managing appointment booking data.
