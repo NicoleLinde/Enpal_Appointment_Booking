@@ -13,20 +13,26 @@ This project is a Next.js-based application created for Enpal's appointment book
 ```bash
 npm install
 ```
-3. Start the API server
+3. Navigate into the api folder and start the API server
 
 ```bash
 cd api
 npm run start
 ```
+4. Then go back and navigate into the frontend folder:
 
-4. Run the frontend (make sure the API is running):
+```bash
+cd ..
+cd frontend
+```
+
+5. Run the frontend (make sure the API is running):
 
 ```bash
 npm run dev
 ```
 
-5. Open http://localhost:3001 to view the application.
+6. Open http://localhost:3001 to view the application.
 
 ## Getting Started
 
