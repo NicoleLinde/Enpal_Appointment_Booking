@@ -10,17 +10,19 @@ This project is a Next.js-based application created for Enpal's appointment book
  git clone https://github.com/NicoleLinde/Enpal_Appointment_Booking.git
  ```
 
-2. Install dependencies:
-
-```bash
-npm install
-```
-3. Navigate into the api folder and start the API server
+2. Navigate into the api folder and install dependencies
 
 ```bash
 cd api
+npm install
+```
+
+3. Start the API server:
+
+```bash
 npm run start
 ```
+
 4. Then go back and navigate into the frontend folder:
 
 ```bash
@@ -28,13 +30,19 @@ cd ..
 cd frontend
 ```
 
-5. Run the frontend (make sure the API is running):
+4. Install dependencies:
+
+```bash
+npm install
+```
+
+6. Run the frontend (make sure the API is running):
 
 ```bash
 npm run dev
 ```
 
-6. Open http://localhost:3001 to view the application.
+7. Open http://localhost:3001 to view the application.
 
 ## Getting Started
 
