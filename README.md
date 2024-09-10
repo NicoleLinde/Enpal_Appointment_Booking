@@ -5,9 +5,11 @@ This project is a Next.js-based application created for Enpal's appointment book
 ## TL;DR: Quick Setup
 
 1. Clone the repository:
-   ```bash
-   git clone https://github.com/NicoleLinde/Enpal_Appointment_Booking.git
-   ```
+   
+ ```bash
+ git clone https://github.com/NicoleLinde/Enpal_Appointment_Booking.git
+ ```
+
 2. Install dependencies:
 
 ```bash
